@@ -1,0 +1,89 @@
+package com.demo.wtm.fragment;
+
+import com.demo.wtm.R;
+import com.demo.wtm.config.RestConfig;
+import com.demo.wtm.model.Room;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class RoomModifyFragment extends Fragment{
+	
+	private static final String TAG = "RoomModifyFragment";
+	
+	private Room mRoom;
+	private EditText etCategoryNo;
+	private EditText etRoomTitle;
+	private EditText etRoomDesc;
+	private EditText etStartDate;
+	private EditText etEndDate;
+	
+	private Button btRoom;
+	
+	public static final RoomModifyFragment newInstance(Room room){
+		RoomModifyFragment f = new RoomModifyFragment();
+		
+		Bundle bundle = new Bundle();
+		
+		bundle.putParcelable(RestConfig.DELIVER_TAG_ROOM, room);		
+		f.setArguments(bundle);
+	
+		return f;
+	}
+	
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		
+		mRoom = getArguments().getParcelable(RestConfig.DELIVER_TAG_ROOM);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+		super.onActivityCreated(savedInstanceState);
+		
+		View v = inflater.inflate(R.layout.fragment_room, container, false);
+		
+		etCategoryNo = (EditText)v.findViewById(R.id.et_category_no);
+		etRoomTitle = (EditText)v.findViewById(R.id.et_room_title);
+		etRoomDesc = (EditText)v.findViewById(R.id.et_room_desc);
+		etStartDate = (EditText)v.findViewById(R.id.et_room_start_date);
+		etEndDate = (EditText)v.findViewById(R.id.et_room_end_date);
+		
+		btRoom = (Button)v.findViewById(R.id.bt_room_insert);
+		btRoom.setText("Create Room");
+		btRoom.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				RoomFragment f = (RoomFragment) getFragmentManager().findFragmentById(R.id.framelayout_room);
+/*				RestServiceClient rClient = new RestServiceClient(f);
+		        rClient.setAction(RestServiceAction.room);
+		        rClient.setContext(getActivity());
+		        rClient.setMethod(RequestMethod.POST);
+		        //rClient.addParam("category_no", category_no);
+		        rClient.addParam("room_title", etRoomTitle.getText().toString());
+		        rClient.addParam("room_desc", etRoomDesc.getText().toString());
+		        rClient.addParam("start_date", etStartDate.getText().toString());
+		        rClient.addParam("end_date", etEndDate.getText().toString());
+		        rClient.execute(null,null,null);*/
+		        
+			}
+			
+		});
+		
+		//etCategoryNo.setText(category_no);
+	
+		return v;
+	}
+
+}

@@ -1,0 +1,56 @@
+package com.demo.wtm;
+
+import java.util.ArrayList;
+
+import com.demo.wtm.config.RestConfig;
+import com.demo.wtm.fragment.CategoryFragment;
+import com.demo.wtm.model.Category;
+import com.demo.wtm.service.Request;
+import com.demo.wtm.service.RequestFactory;
+import com.demo.wtm.service.RequestManager;
+import com.demo.wtm.service.RequestMethod;
+import com.demo.wtm.service.RequestManager.RequestListener;
+import com.demo.wtm.service.RequestService;
+
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
+
+public class CategoryActivity extends BaseActivity implements RequestListener {
+
+	private static final String TAG = "CategoryActivity";
+	
+	private RequestManager mRequestManager;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_category);
+		
+		RequestFactory requestFactory = new RequestFactory();
+		Request request = requestFactory.getCategoryRequest();
+        mRequestManager = new RequestManager(this, RequestService.class);
+        
+        request.put(RestConfig.DELIVER_TAG_METHOD, RequestMethod.GET.name());
+		
+		mRequestManager.execute(this, request);
+   
+	}
+
+
+	@Override
+	public void onRequestFinished(Request request, Bundle bundle) {
+		// TODO Auto-generated method stub
+		
+		FragmentManager fm = getSupportFragmentManager();
+		ArrayList<Category> categoryList = bundle.getParcelableArrayList(RequestFactory.REQUEST_BUNDLE_CATEGORY);		
+		CategoryFragment f = CategoryFragment.newInstance(categoryList);
+		
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.replace(R.id.framelayout_category, f);
+		ft.commit();
+		
+	}
+	
+}

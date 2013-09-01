@@ -1,0 +1,5 @@
+package com.demo.wtm.service;
+
+public enum RestServiceAction {
+	room,user,category,user_room,category_room
+}

@@ -1,0 +1,47 @@
+package com.demo.wtm.model;
+
+import java.util.List;
+
+import com.demo.wtm.R;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+public class CategoryArrayAdapter extends ArrayAdapter<Category> {
+	
+	private Context mContext;
+	private List<Category> mList;
+	
+	public CategoryArrayAdapter(Context context, int textViewResourceId,
+	    List<Category> objects) {
+		super(context, textViewResourceId, objects);
+		mContext = context;
+		mList = objects;
+	}
+	
+	@Override
+	public View getView(int position, View v, ViewGroup parents){
+		View view = v;
+		if(view == null){
+			LayoutInflater inflater = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(R.layout.row_category, parents, false);
+		}
+		
+		Category category = getItem(position);
+		TextView tvName = (TextView)view.findViewById(R.id.row_category_name);
+		TextView tvNo = (TextView)view.findViewById(R.id.row_category_no);
+		TextView tvCnt = (TextView)view.findViewById(R.id.row_room_cnt);
+		//Log.i("kh", category.getCategoryName());
+
+		tvName.setText(category.mCategoryName);
+		tvNo.setText(category.mCategoryNo);
+		tvCnt.setText("("+category.mRoomCnt+")");
+		
+		return view;
+	}
+
+}

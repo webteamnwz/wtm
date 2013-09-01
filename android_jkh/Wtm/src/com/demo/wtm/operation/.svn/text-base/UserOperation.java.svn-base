@@ -1,0 +1,96 @@
+package com.demo.wtm.operation;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
+
+import com.demo.wtm.config.RestConfig;
+import com.demo.wtm.fragment.UserFragment;
+import com.demo.wtm.model.Room;
+import com.demo.wtm.model.User;
+import com.demo.wtm.service.Request;
+import com.demo.wtm.service.RequestFactory;
+import com.demo.wtm.service.RequestMethod;
+import com.demo.wtm.service.RestService;
+import com.demo.wtm.service.WitherestPreference;
+import com.demo.wtm.service.RequestService.Operation;
+
+public class UserOperation implements Operation{
+
+	private static final String TAG = "UserOperation";
+	
+	@Override
+	public Bundle execute(Context context, Request request) {
+		// TODO Auto-generated method stub
+				
+		RestService client = new RestService(context);
+		RequestMethod method = RequestMethod.valueOf(request.getString(RestConfig.DELIVER_TAG_METHOD));
+		switch(method){
+		case GET:{
+			
+		}
+		break;
+		case PUT:
+		case POST:
+		case DELETE:{
+	        client.addParam("user_name", request.getString("user_name"));
+	        client.addParam("user_profile", request.getString("user_profile"));
+	        client.addParam("user_email", request.getString("user_email"));
+	        client.addParam("user_img", request.getString("user_img"));
+	        client.addParam("user_group", request.getString("user_group"));
+	        client.addParam("category_no_1", "");
+	        client.addParam("category_no_2", "");
+	        client.addParam("category_no_3", "");
+		}
+		break;
+		}
+	
+		
+		try {
+			client.execute(RestConfig.REST_SERVICE_URI_USER, method, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+        Bundle bundle = new Bundle();
+        
+		try {
+			JSONObject jObj = new JSONObject(client.getResponse());
+			
+			
+			switch(method){
+			case GET:{
+				JSONObject jUser = jObj.getJSONObject(RestConfig.REST_JSON_TAG_USER);
+				User user = new User(jUser.getString(RestConfig.REST_JSON_TAG_USER_ID)
+						, jUser.getString(RestConfig.REST_JSON_TAG_USER_IMG)
+						, jUser.getString(RestConfig.REST_JSON_TAG_USER_NAME)
+						, jUser.getString(RestConfig.REST_JSON_TAG_USER_GROUP)
+						, null
+						, jUser.getString(RestConfig.REST_JSON_TAG_USER_PROFILE));
+				
+		        bundle.putParcelable(RequestFactory.REQUEST_BUNDLE_USER, user);	
+			}
+			break;
+			case POST:
+			case DELETE:
+			case PUT:{				
+				bundle.putString(RequestFactory.REQUEST_BUNDLE_USER, jObj.getString(RestConfig.REST_JSON_TAG_MSG));
+			}
+			break;
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        return bundle;
+		
+	}
+
+}

@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout
+END
+fragment_user.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/fragment_user.xml
+END
+activity_user.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/activity_user.xml
+END
+activity_page.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/activity_page.xml
+END
+activity_user_room.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/activity_user_room.xml
+END
+fragment_user_modify.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/fragment_user_modify.xml
+END
+row_room.xml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/row_room.xml
+END
+row_category.xml
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/row_category.xml
+END
+activity_main.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/activity_main.xml
+END
+fragment_room.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/fragment_room.xml
+END
+activity_room.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/activity_room.xml
+END
+activity_category_room.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/activity_category_room.xml
+END
+activity_category.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/activity_category.xml
+END
+fragment_category_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/fragment_category_list.xml
+END
+menu_actionbar_page.xml
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/menu_actionbar_page.xml
+END
+fragment_room_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/android_jkh/!svn/ver/2/Wtm/res/layout/fragment_room_list.xml
+END

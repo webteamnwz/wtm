@@ -1,0 +1,45 @@
+package com.demo.wtm.model;
+
+import java.util.List;
+
+import com.demo.wtm.R;
+import com.demo.wtm.R.id;
+import com.demo.wtm.R.layout;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+public class RoomArrayAdapter extends ArrayAdapter<Room> {
+	
+	public RoomArrayAdapter(Context context, int textViewResourceId,
+	    List<Room> objects) {
+		super(context, textViewResourceId, objects);
+	}
+	
+	@Override
+	public View getView(int position, View v, ViewGroup parents){
+		View view = v;
+		if(view == null){
+			LayoutInflater inflater = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(R.layout.row_room, parents, false);
+		}
+		
+		Room room = getItem(position);
+		TextView tvTitle = (TextView)view.findViewById(R.id.row_room_title);
+		TextView tvJoinCnt = (TextView)view.findViewById(R.id.row_room_join_cnt);
+		//Log.i("kh", room.getRoomTitle());
+
+		tvTitle.setText(room.mRoomTitle);
+		tvJoinCnt.setText("("+room.mRoomJoinCnt+")");
+		if(room.mRoomJoinCnt == null)
+			tvJoinCnt.setVisibility(View.GONE);
+		
+		return view;
+	}
+
+}

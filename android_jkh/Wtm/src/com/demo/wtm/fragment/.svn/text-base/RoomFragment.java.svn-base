@@ -1,0 +1,130 @@
+package com.demo.wtm.fragment;
+
+import com.demo.wtm.R;
+import com.demo.wtm.RoomActivity;
+import com.demo.wtm.config.RestConfig;
+import com.demo.wtm.model.Room;
+import com.demo.wtm.service.Request;
+import com.demo.wtm.service.RequestFactory;
+import com.demo.wtm.service.RequestManager;
+import com.demo.wtm.service.RequestMethod;
+import com.demo.wtm.service.RequestService;
+import com.demo.wtm.service.RequestManager.RequestListener;
+
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class RoomFragment extends Fragment implements RequestListener, OnClickListener{
+	
+	private static final String TAG = "RoomFragment";
+	
+	private RequestManager mRequestManager;
+	
+	//private Room room;
+	private EditText etRoomTitle;
+	private EditText etRoomDesc;
+	private EditText etStartDate;
+	private EditText etEndDate;
+	private Room mRoom;
+	
+	private Button btRoomIn;
+	private Button btRoomOut;
+	private Button btRoomCheck;
+	
+	public static final RoomFragment newInstance(Room room){
+		
+		RoomFragment f = new RoomFragment();
+		Bundle bundle = new Bundle();
+		
+		bundle.putParcelable(RestConfig.DELIVER_TAG_ROOM, room);
+		f.setArguments(bundle);
+		return f;
+	}
+	
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		
+		mRoom = getArguments().getParcelable(RestConfig.DELIVER_TAG_ROOM);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+		super.onActivityCreated(savedInstanceState);
+		
+		
+		View v = inflater.inflate(R.layout.fragment_room, container, false);
+		
+		etRoomTitle = (EditText)v.findViewById(R.id.et_room_title);
+		etRoomDesc = (EditText)v.findViewById(R.id.et_room_desc);
+		etStartDate = (EditText)v.findViewById(R.id.et_room_start_date);
+		etEndDate = (EditText)v.findViewById(R.id.et_room_end_date);
+		
+		btRoomIn = (Button)v.findViewById(R.id.bt_room_insert);
+		btRoomIn.setText("In Room");
+		btRoomIn.setOnClickListener(this);
+		
+		if(mRoom.mIsJoin){
+			btRoomIn.setEnabled(false);
+		}
+		
+		btRoomCheck = (Button)v.findViewById(R.id.bt_room_update);
+		btRoomCheck.setOnClickListener(this);
+		
+		btRoomOut = (Button)v.findViewById(R.id.bt_room_delete);
+		btRoomOut.setOnClickListener(this);
+		
+		//etCategoryIdx.setText()
+		etRoomTitle.setText(mRoom.mRoomTitle);
+		etRoomDesc.setText(mRoom.mRoomDesc);
+		etStartDate.setText(mRoom.mRoomStartDate);
+		etEndDate.setText(mRoom.mRoomEndDate);
+	
+		return v;
+	}
+
+
+	@Override
+	public void onRequestFinished(Request request, Bundle bundle) {
+		// TODO Auto-generated method stub
+		Toast toast = Toast.makeText(getActivity(), bundle.getString(RequestFactory.REQUEST_BUNDLE_USER_ROOM), Toast.LENGTH_SHORT);
+		toast.show();
+		
+		getActivity().finish();
+	}
+
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		Room room = getArguments().getParcelable(RestConfig.DELIVER_TAG_ROOM);
+	
+		RequestFactory requestFactory = new RequestFactory();
+		Request request = requestFactory.getUserRoomRequest();
+        mRequestManager = new RequestManager(getActivity(), RequestService.class);
+		
+		if(v.getId() == R.id.bt_room_insert){
+			request.put("method", RequestMethod.POST.name());
+		}else if(v.getId() == R.id.bt_room_update){
+			request.put("method", RequestMethod.PUT.name());
+		}else if(v.getId() == R.id.bt_room_delete){
+			request.put("method", RequestMethod.DELETE.name());
+		}
+		request.put(RestConfig.DELIVER_TAG_ROOM_NO, room.mRoomNo);
+
+		mRequestManager.execute(this, request);
+
+	}
+
+
+}

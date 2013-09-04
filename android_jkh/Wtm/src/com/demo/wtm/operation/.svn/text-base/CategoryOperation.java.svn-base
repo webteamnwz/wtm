@@ -1,0 +1,70 @@
+package com.demo.wtm.operation;
+
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
+
+import com.demo.wtm.config.RestConfig;
+import com.demo.wtm.fragment.CategoryFragment;
+import com.demo.wtm.fragment.CategoryRoomFragment;
+import com.demo.wtm.fragment.UserRoomFragment;
+import com.demo.wtm.model.Category;
+import com.demo.wtm.model.Room;
+import com.demo.wtm.model.User;
+import com.demo.wtm.service.Request;
+import com.demo.wtm.service.RequestFactory;
+import com.demo.wtm.service.RequestMethod;
+import com.demo.wtm.service.RestService;
+import com.demo.wtm.service.WitherestPreference;
+import com.demo.wtm.service.RequestService.Operation;
+
+public class CategoryOperation implements Operation{
+	
+	private static final String TAG = "CategoryOperation";
+
+	@Override
+	public Bundle execute(Context context, Request request) {
+		// TODO Auto-generated method stub
+				
+		RestService client = new RestService(context);
+		RequestMethod method = RequestMethod.valueOf(request.getString(RestConfig.DELIVER_TAG_METHOD));
+		
+		try {
+			client.execute(RestConfig.REST_SERVICE_URI_CATEGORY, method, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		JSONObject mJObj;
+		JSONArray jArray;
+        Bundle bundle = new Bundle();
+
+		try {
+			mJObj = new JSONObject(client.getResponse());
+			jArray = mJObj.getJSONArray(RestConfig.REST_JSON_TAG_CATEGORY_CATEGORIES);
+			ArrayList<Category> categoryList = new ArrayList<Category>();
+			
+	        for (int i = 0; i < jArray.length(); i++) {
+	            JSONObject j = jArray.getJSONObject(i);
+	            categoryList.add(new Category(j.getString(RestConfig.REST_JSON_TAG_CATEGORY_NO), j.getString(RestConfig.REST_JSON_TAG_CATEGORY_NAME), j.getString(RestConfig.REST_JSON_TAG_CATEGORY_ROOM_CNT)));
+	        }
+	        bundle.putParcelableArrayList(RequestFactory.REQUEST_BUNDLE_CATEGORY, categoryList);
+
+	        
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 
+        return bundle;
+		
+	}
+
+}

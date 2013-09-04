@@ -1,0 +1,70 @@
+package com.demo.wtm.request;
+
+import java.util.EventListener;
+
+import com.demo.wtm.service.RequestService;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
+import android.util.Log;
+
+public class RequestManager {
+
+	private static final String TAG = "RequestManager";
+	private Context mContext;
+	private Class<? extends RequestService> mRequestService;
+	
+	public RequestManager(Context context, Class<? extends RequestService> requestService){
+		
+		Log.i("kh",TAG);
+		mContext = context.getApplicationContext();
+		mRequestService = requestService;
+		
+	}
+	
+	public void execute(RequestListener listener, Request request){
+		RequestReceiver receiver = new RequestReceiver(request);
+		receiver.addListener(listener);
+		
+        Intent intent = new Intent(mContext, mRequestService);
+        intent.putExtra(RequestService.INTENT_EXTRA_RECEIVER, receiver);
+        intent.putExtra(RequestService.INTENT_EXTRA_REQUEST, request);
+
+        mContext.startService(intent);
+	}
+	
+	public interface RequestListener extends EventListener{
+		public void onRequestFinished(Request request, Bundle bundle);
+	}
+	
+	private final class RequestReceiver extends ResultReceiver {
+		
+		private static final String TAG = "ReuqestReceiver";
+		private RequestListener mListener;
+		private Request mRequest;
+
+		public RequestReceiver(Request request) {
+			super(new Handler());
+			// TODO Auto-generated constructor stub
+			Log.i("kh",TAG);
+
+            mRequest = request;
+
+		}
+		
+		
+		@Override
+		public void onReceiveResult(int resultCode, Bundle resultData){
+			mListener.onRequestFinished(mRequest, resultData);
+		}
+		
+		public void addListener(RequestListener listener){
+			this.mListener = listener;
+		}
+		
+
+	}
+}

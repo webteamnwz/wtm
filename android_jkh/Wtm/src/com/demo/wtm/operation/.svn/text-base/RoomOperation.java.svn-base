@@ -1,0 +1,71 @@
+package com.demo.wtm.operation;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
+
+import com.demo.wtm.config.RestConfig;
+import com.demo.wtm.fragment.RoomFragment;
+import com.demo.wtm.model.Room;
+import com.demo.wtm.service.Request;
+import com.demo.wtm.service.RequestFactory;
+import com.demo.wtm.service.RequestMethod;
+import com.demo.wtm.service.RestService;
+import com.demo.wtm.service.WitherestPreference;
+import com.demo.wtm.service.RequestService.Operation;
+
+public class RoomOperation implements Operation{
+	
+	private static final String TAG = "RoomOperation";
+
+	@Override
+	public Bundle execute(Context context, Request request) {
+		// TODO Auto-generated method stub
+				
+		RestService client = new RestService(context);
+		String roomNo =  request.getString(RestConfig.DELIVER_TAG_ROOM_NO);
+		RequestMethod method = RequestMethod.valueOf(request.getString(RestConfig.DELIVER_TAG_METHOD));
+		
+		try {
+			client.addParam(RestConfig.DELIVER_TAG_ROOM_NO, roomNo);
+			client.execute(RestConfig.REST_SERVICE_URI_ROOM, method, true);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		JSONObject jObj;
+		Room room;
+        Bundle bundle = new Bundle();
+
+		try {
+			jObj = new JSONObject(client.getResponse());
+			
+			switch(method){
+			case GET:{
+				JSONObject jRoom = jObj.getJSONObject(RestConfig.REST_JSON_TAG_ROOM);
+				room = new Room(roomNo, jRoom.getString(RestConfig.REST_JSON_TAG_ROOM_TITLE)
+						, jRoom.getString(RestConfig.REST_JSON_TAG_ROOM_MANAGER_ID)
+						, jRoom.getString(RestConfig.REST_JSON_TAG_ROOM_DESC)
+						, jRoom.getString(RestConfig.REST_JSON_TAG_ROOM_STARTDATE)
+						, jRoom.getString(RestConfig.REST_JSON_TAG_ROOM_ENDDATE), false);
+		        bundle.putParcelable(RequestFactory.REQUEST_BUNDLE_ROOM, room);
+			}
+			break;
+			}
+
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+        return bundle;
+		
+	}
+
+}

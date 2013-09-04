@@ -72,3 +72,85 @@ exports.get = function(req, res) {
       }   
   });      
 };
+
+exports.post = function(req, res) {
+  var errman = require('./common').errman;    
+  var jsonman = require('./common').jsonman;   
+  
+  // 인증      
+  var authman = require('./common').authman;
+  var user_id = authman['auth'](req.user);
+  if(user_id === '') {
+    res.send(statusCodes.OK, errman['err'](998, ''));  
+  }  
+     
+  //var user_id = req.query.user_id; // TEST
+  var room_no = req.body.room_no;        
+  var category_no_1 = req.body.category_no_1;
+  var category_no_2 = req.body.category_no_2;
+  var category_no_3 = req.body.category_no_3;
+  
+  if(typeof category_no_1 == 'undefined')
+    category_no_1 = 0;
+    
+  if(typeof category_no_2 == 'undefined')
+    category_no_2 = 0;
+    
+  if(typeof category_no_3 == 'undefined')
+    category_no_3 = 0;   
+     
+  var params = [user_id, room_no, category_no_1, category_no_2, category_no_3];   
+  var mssql = req.service.mssql;
+  var sql = "EXEC wtm.sp_category_room_create ?, ?, ?, ?, ?";
+    
+  mssql.query(sql, params, {
+    success: function(results) {       
+      var rtnJson = jsonman['success']();         
+      res.send(statusCodes.OK, rtnJson);
+    },
+    error: function(err) {        
+      res.send(statusCodes.OK, errman['err'](999, err)); 
+    }             
+  });        
+}
+
+exports.put = function(req, res) {
+  var errman = require('./common').errman;    
+  var jsonman = require('./common').jsonman;   
+  
+  // 인증      
+  var authman = require('./common').authman;
+  var user_id = authman['auth'](req.user);
+  if(user_id === '') {
+    res.send(statusCodes.OK, errman['err'](998, ''));  
+  }  
+     
+  //var user_id = req.query.user_id; // TEST
+  var room_no = req.query.room_no;        
+  var category_no_1 = req.body.category_no_1;
+  var category_no_2 = req.body.category_no_2;
+  var category_no_3 = req.body.category_no_3;
+  
+  if(typeof category_no_1 == 'undefined')
+    category_no_1 = 0;
+    
+  if(typeof category_no_2 == 'undefined')
+    category_no_2 = 0;
+    
+  if(typeof category_no_3 == 'undefined')
+    category_no_3 = 0;  
+    
+  var params = [user_id, room_no, category_no_1, category_no_2, category_no_3];   
+  var mssql = req.service.mssql;
+  var sql = "EXEC wtm.sp_category_room_modify ?, ?, ?, ?, ?";
+    
+  mssql.query(sql, params, {
+    success: function(results) {       
+      var rtnJson = jsonman['success']();         
+      res.send(statusCodes.OK, rtnJson);
+    },
+    error: function(err) {        
+      res.send(statusCodes.OK, errman['err'](999, err)); 
+    }             
+  });        
+}

@@ -82,15 +82,14 @@ exports.post = function(req, res) {
   }  
   
   //var user_id = req.query.user_id; // TEST 
-  var category_no = req.body.category_no; 
   var room_title = req.body.room_title;
   var room_desc = req.body.room_desc;
   var start_date = req.body.start_date;
   var end_date = req.body.end_date;
       
-  var params =  [category_no, user_id, room_title, room_desc, start_date, end_date];     
+  var params =  [user_id, room_title, room_desc, start_date, end_date];     
   var mssql = req.service.mssql;
-  var sql = "EXEC wtm.sp_user_room_create ?, ?, ?, ?, ?, ?";
+  var sql = "EXEC wtm.sp_room_create ?, ?, ?, ?, ?";
     
   mssql.query(sql, params, {
     success: function(results) {       
@@ -115,16 +114,15 @@ exports.put = function(req, res) {
   } 
     
   //var user_id = req.query.user_id; // TEST
-  var room_no = req.query.room_no;
-  var category_no = req.body.category_no;      
+  var room_no = req.query.room_no;       
   var room_title = req.body.room_title;
   var room_desc = req.body.room_desc;
   var start_date = req.body.start_date;
   var end_date = req.body.end_date;
       
-  var params =  [user_id, category_no, room_no, room_title, room_desc, start_date, end_date];     
+  var params =  [user_id, room_no, room_title, room_desc, start_date, end_date];     
   var mssql = req.service.mssql;
-  var sql = "EXEC wtm.sp_room_modify ?, ?, ?, ?, ?, ?, ?";
+  var sql = "EXEC wtm.sp_room_modify ?, ?, ?, ?, ?, ?";
     
   mssql.query(sql, params, {
     success: function(results) {       

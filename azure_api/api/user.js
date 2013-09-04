@@ -9,8 +9,10 @@ exports.get = function(req, res) {
   if(user_id === '') {
     res.send(statusCodes.OK, errman['err'](998, ''));  
   }   
-      
-  //var user_id = req.query.user_id; // TEST
+    
+  if(typeof req.query.user_id != 'undefined')
+    user_id = req.query.user_id;       
+
   var mssql = req.service.mssql;
   var sql = "EXEC wtm.sp_user ?"; 
   var params = [user_id];   

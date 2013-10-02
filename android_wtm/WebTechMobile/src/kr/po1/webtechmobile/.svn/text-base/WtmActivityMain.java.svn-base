@@ -1,0 +1,113 @@
+package kr.po1.webtechmobile;
+
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+@SuppressLint("ShowToast")
+public class WtmActivityMain extends WtmActivity implements OnClickListener
+{
+	private ProgressBar mProgressBar;
+	Context thisContext = this;
+
+	// 로그인 완료 브로드캐스트 리시버
+	private BroadcastReceiver authBR = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			String authKey = intent.getExtras().getString("AUTH_TOKEN");
+			WtmDataStore.authKey = authKey;
+
+			String action = intent.getAction();
+			Log.d("tag", "action: " + action);
+
+			TextView txt = (TextView) findViewById(R.id.textStatus);
+			txt.setText(getString(R.string.auth_complete));
+
+			Button btnLoginCancel = (Button) findViewById(R.id.buttonFacebookLoginCancel);
+			btnLoginCancel.setVisibility(View.GONE);
+
+			LinearLayout testLayout = (LinearLayout) findViewById(R.id.layoutTest);
+			testLayout.setVisibility(View.VISIBLE);
+
+			authDone();
+		}
+	};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		// getCacheDir().listFiles()
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		// 인증 완료
+		registerReceiver(authBR, new IntentFilter(WtmUserAuth.ACTION_AUTH_COMPLETE));
+
+		// 로그인 버튼
+		Button btnLogin = (Button) findViewById(R.id.buttonFacebookLogin);
+		btnLogin.setOnClickListener((OnClickListener) this);
+
+		Button btnLoginCancel = (Button) findViewById(R.id.buttonFacebookLoginCancel);
+		btnLoginCancel.setOnClickListener((OnClickListener) this);
+
+		mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
+
+		onClick(btnLogin);
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		switch(v.getId())
+		{
+		// 로그인 버튼
+			case R.id.buttonFacebookLogin:
+				TextView txt = (TextView) findViewById(R.id.textStatus);
+				txt.setText(getString(R.string.auth_begin));
+
+				Button btnLogin = (Button) findViewById(R.id.buttonFacebookLogin);
+				btnLogin.setVisibility(View.GONE);
+
+				// Button btnLoginCancel = (Button)
+				// findViewById(R.id.buttonFacebookLoginCancel);
+				// btnLoginCancel.setVisibility(View.VISIBLE);
+
+				// 로그인 인증 시작
+				WtmUserAuth auth = new WtmUserAuth(thisContext);
+				auth.doAuth();
+				Log.d("tag", "begin auth...");
+
+				mProgressBar.setVisibility(View.VISIBLE);
+				break;
+
+			case R.id.buttonFacebookLoginCancel:
+				break;
+		}
+	}
+
+	// 인증 완료 후 호출
+	private void authDone()
+	{
+		Intent intentActivityHome = new Intent(this, WtmActivityHome.class);
+		// Intent intentActivityHome = new Intent(this,
+		// WtmActivityRoomList.class);
+		// Intent intentActivityHome = new Intent(this, WtmActivityTest.class);
+		startActivity(intentActivityHome);
+
+		mProgressBar.setVisibility(View.GONE);
+
+		finish();
+	}
+}

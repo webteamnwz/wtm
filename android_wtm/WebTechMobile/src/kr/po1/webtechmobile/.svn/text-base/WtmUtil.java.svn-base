@@ -1,0 +1,121 @@
+package kr.po1.webtechmobile;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLEncoder;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.widget.ImageView;
+
+public class WtmUtil
+{
+	@SuppressWarnings("deprecation")
+	public static String encodeUrl(Bundle parameters)
+	{
+		if(parameters == null)
+			return "";
+
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for(String key : parameters.keySet())
+		{
+			Object parameter = parameters.get(key);
+			if(!(parameter instanceof String))
+				continue;
+
+			if(first)
+				first = false;
+			else
+				sb.append("&");
+			sb.append(URLEncoder.encode(key) + "=" + URLEncoder.encode(parameters.getString(key)));
+		}
+		return sb.toString();
+	}
+
+	public static String encodePostBody(Bundle parameters, String boundary)
+	{
+		if(parameters == null)
+			return "";
+		StringBuilder sb = new StringBuilder();
+
+		for(String key : parameters.keySet())
+		{
+			Object parameter = parameters.get(key);
+			if(!(parameter instanceof String))
+				continue;
+
+			sb.append("Content-Disposition: form-data; name=\"" + key + "\"\r\n\r\n" + (String) parameter);
+			sb.append("\r\n" + "--" + boundary + "\r\n");
+		}
+
+		return sb.toString();
+	}
+
+	public static void getImageToUrl(ImageView view, String url)
+	{
+		class ImageViewUrl extends AsyncTask<String, Void, String>
+		{
+			private ImageView imgView;
+			private Drawable draw;
+
+			public ImageViewUrl(ImageView view)
+			{
+				imgView = view;
+			}
+
+			@Override
+			protected String doInBackground(String... params)
+			{
+				try
+				{
+					InputStream is = (InputStream) new URL(params[0]).getContent();
+					draw = Drawable.createFromStream(is, "src name");
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(String result)
+			{
+				imgView.setImageDrawable(draw);
+			}
+		}
+
+		new ImageViewUrl(view).execute(url);
+	}
+
+	public static String getFbProfileImageUrl(String fbId)
+	{
+		return "https://graph.facebook.com/" + convFbId(fbId) + "/picture";
+	}
+
+	public static int pxTodp(int px, Context context)
+	{
+		DisplayMetrics met = context.getResources().getDisplayMetrics();
+		float pxtodp = px / (met.densityDpi / 160f);
+
+		return (int) pxtodp;
+	}
+
+	public static int dpTopx(int dp, Context context)
+	{
+		DisplayMetrics met = context.getResources().getDisplayMetrics();
+		float dptopx = dp * (met.densityDpi / 160f);
+
+		return (int) dptopx;
+	}
+
+	public static String convFbId(String fbId)
+	{
+		return fbId.replace("Facebook:", "");
+	}
+}

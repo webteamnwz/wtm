@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+	<item
+		android:id="@+id/menu_createRoom"
+		android:orderInCategory="100"
+		android:showAsAction="never"
+		android:title="@string/action_createRoom"
+		android:visible="false"/>
+	<item
+		android:id="@+id/menu_settings"
+		android:orderInCategory="101"
+		android:showAsAction="never"
+		android:title="@string/action_settings"
+		android:visible="false"/>
+	<item
+		android:id="@+id/menu_userInfo"
+		android:orderInCategory="102"
+		android:showAsAction="never"
+		android:title="@string/action_userInfo"/>
+	<item
+		android:id="@+id/menu_test1"
+		android:orderInCategory="999"
+		android:showAsAction="never"
+		android:title="(테스트) 회원정보 삭제"
+		android:visible="true"/>
+
+</menu>

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/android_wtm/!svn/ver/2/WebTechMobile/bin
+END
+WebTechMobile.apk
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/android_wtm/!svn/ver/6/WebTechMobile/bin/WebTechMobile.apk
+END
+AndroidManifest.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/android_wtm/!svn/ver/2/WebTechMobile/bin/AndroidManifest.xml
+END
+resources.ap_
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/android_wtm/!svn/ver/6/WebTechMobile/bin/resources.ap_
+END
+jarlist.cache
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/android_wtm/!svn/ver/2/WebTechMobile/bin/jarlist.cache
+END
+classes.dex
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/android_wtm/!svn/ver/6/WebTechMobile/bin/classes.dex
+END

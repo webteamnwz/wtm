@@ -1,0 +1,111 @@
+package kr.po1.webtechmobile;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.util.Log;
+
+public class WtmRoomInfo
+{
+	private String roomTitle;
+	private String roomDesc;
+
+	private String startDate;
+	private String endDate;
+	private String[] categoryIds;
+	private String roomManager;
+
+	private int joinCnt;
+	private int checkCnt;
+
+	private JSONArray checkedUsersArray;
+	private ArrayList<HashMap<String, String>> checkedUsers;
+
+	public void setRoomInfo(JSONObject roomInfoObject)
+	{
+		checkedUsers = new ArrayList<HashMap<String, String>>();
+
+		try
+		{
+			JSONObject roomInfoDetail = roomInfoObject.getJSONObject("room");
+
+			roomTitle = roomInfoDetail.getString("room_title");
+			roomDesc = roomInfoDetail.getString("room_desc");
+
+			startDate = roomInfoDetail.getString("start_date");
+			endDate = roomInfoDetail.getString("end_date");
+
+			joinCnt = roomInfoDetail.getInt("cnt_join");
+			checkCnt = roomInfoDetail.getInt("cnt_chk");
+
+			roomManager = roomInfoDetail.getString("room_manager_id");
+
+			categoryIds = roomInfoDetail.getString("category_ids").split("|");
+			checkedUsersArray = roomInfoObject.getJSONArray("checked_user");
+
+			for(int i = 0; i < checkedUsersArray.length(); i++)
+			{
+				JSONObject userInfoJson = checkedUsersArray.getJSONObject(i);
+				HashMap<String, String> userInfo = new HashMap<String, String>();
+				userInfo.put("user_id", userInfoJson.getString("user_id"));
+				userInfo.put("user_img", userInfoJson.getString("user_img"));
+
+				checkedUsers.add(userInfo);
+			}
+		}
+		catch(JSONException e)
+		{
+			e.printStackTrace();
+			Log.e("tag", e.toString());
+		}
+	}
+
+	public String getTitle()
+	{
+		return roomTitle;
+	}
+
+	public String getDesc()
+	{
+		return roomDesc;
+	}
+
+	public String getStartDate()
+	{
+		return startDate;
+	}
+
+	public String getEndDate()
+	{
+		return endDate;
+	}
+
+	public String[] getCategoryIds()
+	{
+		return categoryIds;
+	}
+
+	public String getManager()
+	{
+		return roomManager;
+	}
+
+	public int getJoinCnt()
+	{
+		return joinCnt;
+	}
+
+	public int getCheckCnt()
+	{
+		return checkCnt;
+	}
+
+	public ArrayList<HashMap<String, String>> getCheckedUsers()
+	{
+		return checkedUsers;
+	}
+}

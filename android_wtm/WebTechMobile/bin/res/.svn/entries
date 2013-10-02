@@ -1,0 +1,56 @@
+10
+
+dir
+2
+http://svn.po1.kr:8080/svn/android_wtm/WebTechMobile/bin/res
+http://svn.po1.kr:8080/svn/android_wtm
+delete
+
+
+2013-08-19T12:04:51.983214Z
+2
+kdh826
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8cfe5995-b62b-594b-927f-9b3695428574
+
+drawable-hdpi
+dir
+
+
+
+delete
+
+drawable-xxhdpi
+dir
+
+
+
+delete
+
+drawable-mdpi
+dir
+
+
+
+delete
+
+drawable-xhdpi
+dir
+
+
+
+delete
+

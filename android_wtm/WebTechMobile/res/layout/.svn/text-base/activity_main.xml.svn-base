@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/WTM_Main_Activity"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical" >
+
+	<ScrollView
+		android:id="@+id/scrollView1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" >
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			android:paddingBottom="10dp"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:paddingTop="10dp" >
+
+			<TextView
+				android:id="@+id/textStatus"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="로그인 후 이용 가능합니다."
+				android:textColor="#ffffff" />
+
+			<ProgressBar
+				android:id="@+id/loadingProgressBar"
+				android:layout_width="28dp"
+				android:layout_height="28dp"
+				android:visibility="gone" />
+
+			<Button
+				android:id="@+id/buttonFacebookLogin"
+				style="@style/WTM_Main_Button_Login"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:text="@string/ui_main_buttonFacebookLogin" />
+
+			<Button
+				android:id="@+id/buttonFacebookLoginCancel"
+				style="@style/WTM_Main_Button_Login_Cancel"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:text="@string/ui_main_buttonLoginCancel"
+				android:visibility="gone" />
+
+			<LinearLayout
+				android:id="@+id/layoutTest"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:visibility="gone" >
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+
+</LinearLayout>

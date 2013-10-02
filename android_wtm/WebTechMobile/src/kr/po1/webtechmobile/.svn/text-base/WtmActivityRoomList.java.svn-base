@@ -1,0 +1,223 @@
+package kr.po1.webtechmobile;
+
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+public class WtmActivityRoomList extends WtmActivity implements OnClickListener
+{
+	public Context thisContext = this;
+	public HashMap<Integer, Boolean> isRoomChecked = new HashMap<Integer, Boolean>();
+
+	private Boolean isLoad = false;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		isLastActivity = true;
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_room_list);
+
+		Button btnTest = (Button) findViewById(R.id.buttonTest);
+		btnTest.setOnClickListener((OnClickListener) this);
+		Button btnTest2 = (Button) findViewById(R.id.buttonTest2);
+		btnTest2.setOnClickListener((OnClickListener) this);
+
+		isLoad = true;
+
+		// test
+		WtmHttpCallHandler userInfoHandler = new WtmHttpCallHandler("https://wtm.azure-mobile.net/api/user", WtmHttpCallHandler.METHOD_GET)
+		{
+			@Override
+			public void onCompleted(String responseContents)
+			{
+				super.onCompleted(responseContents);
+
+				Log.d("tag", "https://wtm.azure-mobile.net/api/user");
+				Log.d("tag", responseContents);
+
+				try
+				{
+					JSONObject userInfoJson = new JSONObject(responseContents);
+					WtmUserInfo userInfo = new WtmUserInfo();
+					userInfo.setUserInfo(userInfoJson);
+
+					WtmDataStore.myInfo = userInfo;
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		};
+		WtmHttpCallHandler categoryInfoHandler = new WtmHttpCallHandler("https://wtm.azure-mobile.net/api/category", WtmHttpCallHandler.METHOD_GET)
+		{
+			@Override
+			public void onCompleted(String responseContents)
+			{
+				super.onCompleted(responseContents);
+
+				Log.d("tag", "https://wtm.azure-mobile.net/api/category");
+				Log.d("tag", responseContents);
+			}
+		};
+		WtmHttpCallHandler roomListHandler = new WtmHttpCallHandler("https://wtm.azure-mobile.net/api/user_room", WtmHttpCallHandler.METHOD_GET)
+		{
+			@Override
+			public void onCompleted(String responseContents)
+			{
+				super.onCompleted(responseContents);
+
+				Log.d("tag", "https://wtm.azure-mobile.net/api/category");
+				Log.d("tag", responseContents);
+
+				showRoomList(responseContents);
+			}
+		};
+		WtmHttpCall httpCall = new WtmHttpCall();
+		httpCall.addHandler(userInfoHandler);
+		httpCall.addHandler(categoryInfoHandler);
+		httpCall.addHandler(roomListHandler);
+		httpCall.execute();
+	}
+
+	@SuppressLint("ShowToast")
+	@Override
+	public void onClick(View v)
+	{
+		if(v.getId() == R.id.buttonTest)
+		{
+			Intent intentActivity = new Intent(this, WtmActivityTest.class);
+			startActivity(intentActivity);
+		}
+		else if(v.getId() == R.id.buttonTest2)
+		{
+			Intent intentActivity = new Intent(this, WtmActivityCategoryList.class);
+			startActivity(intentActivity);
+		}
+		else
+		{
+			int roomNo = v.getId();
+
+			Intent intentActivity = new Intent(this, WtmActivityUserRoomInfo.class);
+			intentActivity.putExtra("ROOM_NO", roomNo);
+			intentActivity.putExtra("IS_CHECKED", isRoomChecked.get(roomNo));
+			startActivity(intentActivity);
+		}
+	}
+
+	@Override
+	protected void dataReceiver(Context context, Intent intent)
+	{
+		String requestUrl = (String) intent.getExtras().get("REQUEST_URL");
+		String responseContents = (String) intent.getExtras().get("RESPONSE_CONTENTS");
+		String requestCate = (String) intent.getExtras().get("REQUEST_CATEGORY");
+		String requestMethod = (String) intent.getExtras().get("REQUEST_METHOD");
+
+		if(requestCate.equals("USER_ROOM_LIST"))
+			showRoomList(responseContents);
+		else if(requestCate.equals("USER_ROOM_CHECK"))
+		{
+			Toast.makeText(context, "체크 완료", Toast.LENGTH_LONG).show();
+
+			WtmHttp call = new WtmHttp("https://wtm.azure-mobile.net/api/user_room", WtmHttp.METHOD_GET);
+			call.execute(context);
+		}
+	}
+
+	private void showRoomList(String contents)
+	{
+		final LinearLayout layout = (LinearLayout) findViewById(R.id.layout_room_list);
+		layout.removeAllViews();
+
+		try
+		{
+			JSONObject jo = new JSONObject(contents);
+			if(jo.getInt("code") == 100)
+			{
+				isRoomChecked = new HashMap<Integer, Boolean>();
+
+				JSONArray roomList = jo.getJSONArray("roomList");
+				Log.d("tag", "roomCount: " + roomList.length());
+
+				for(int ri = 0; ri < roomList.length(); ri++)
+				{
+					JSONObject roomInfo = roomList.getJSONObject(ri);
+
+					String roomTitle = roomInfo.getString("room_title");
+					String isChecked = roomInfo.getString("is_checked");
+					Log.d("tag", "isChecked: " + isChecked);
+					int roomNo = roomInfo.getInt("room_no");
+					int roomJoinCnt = roomInfo.getInt("cnt_join_user");
+					int roomCheckCnt = roomInfo.getInt("cnt_chk_user");
+
+					Button btnRoomList = new Button(thisContext);
+					btnRoomList.setId(roomNo);
+					btnRoomList.setOnClickListener((OnClickListener) thisContext);
+					btnRoomList.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+					btnRoomList.setText(roomTitle + " (" + roomJoinCnt + "/" + roomCheckCnt + ")");
+					btnRoomList.setBackgroundResource(R.drawable.btn_gray);
+					btnRoomList.setGravity(Gravity.LEFT);
+					btnRoomList.setTextSize(15);
+					layout.addView(btnRoomList);
+					Log.d("tag", "size: " + isRoomChecked.size());
+
+					isRoomChecked.put(roomNo, isChecked.equals("true"));
+				}
+			}
+		}
+		catch(JSONException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	protected void onResume()
+	{
+		if(isLoad)
+		{
+			WtmHttpCallHandler roomListHandler = new WtmHttpCallHandler("https://wtm.azure-mobile.net/api/user_room", WtmHttpCallHandler.METHOD_GET)
+			{
+				@Override
+				public void onCompleted(String responseContents)
+				{
+					super.onCompleted(responseContents);
+
+					Log.d("tag", "https://wtm.azure-mobile.net/api/category");
+					Log.d("tag", responseContents);
+
+					showRoomList(responseContents);
+				}
+			};
+			WtmHttpCall httpCall = new WtmHttpCall();
+			httpCall.addHandler(roomListHandler);
+			httpCall.execute();
+		}
+
+		super.onResume();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.menu_home, menu);
+		return true;
+	}
+}

@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/WTM_Main_Activity"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#ffffff"
+	android:orientation="vertical" >
+
+	<ScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" >
+
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_gravity="center"
+			android:orientation="vertical" >
+
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:gravity="center"
+				android:orientation="vertical"
+				android:padding="10dp" >
+
+				<ImageView
+					android:id="@+id/imageView1"
+					android:layout_width="200dp"
+					android:layout_height="200dp"
+					android:src="@drawable/wtm_logo" />
+
+				<TextView
+					android:id="@+id/textStatus"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="25dp"
+					android:text="로그인 후 이용 가능합니다."
+					android:textColor="#000000" />
+
+				<ProgressBar
+					android:id="@+id/loadingProgressBar"
+					android:layout_width="28dp"
+					android:layout_height="28dp"
+					android:layout_marginTop="10dp"
+					android:visibility="gone" />
+
+				<Button
+					android:id="@+id/buttonFacebookLogin"
+					style="@style/WTM_Main_Button_Login"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="20dp"
+					android:text="@string/ui_main_buttonFacebookLogin" />
+
+				<Button
+					android:id="@+id/buttonFacebookLoginCancel"
+					style="@style/WTM_Main_Button_Login_Cancel"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="20dp"
+					android:text="@string/ui_main_buttonLoginCancel"
+					android:visibility="gone" />
+
+				<LinearLayout
+					android:id="@+id/layoutTest"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:visibility="gone" >
+				</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+
+</LinearLayout>

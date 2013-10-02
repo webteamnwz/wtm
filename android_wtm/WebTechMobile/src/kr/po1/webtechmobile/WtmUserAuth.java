@@ -1,0 +1,121 @@
+/**
+ * class WtmUserAuth
+ * 페이스북을 이용한 사용자 인증
+ * 
+ * 김동현 (kdh826@neowiz.com)
+ */
+package kr.po1.webtechmobile;
+
+import java.net.MalformedURLException;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+
+import com.microsoft.windowsazure.mobileservices.MobileServiceAuthenticationProvider;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceUser;
+import com.microsoft.windowsazure.mobileservices.NextServiceFilterCallback;
+import com.microsoft.windowsazure.mobileservices.ServiceFilter;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterRequest;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterResponseCallback;
+import com.microsoft.windowsazure.mobileservices.UserAuthenticationCallback;
+
+public class WtmUserAuth
+{
+	public static boolean authResult = false;
+	public static String authToken = null;
+	public static String userId = null;
+	public static final String ACTION_AUTH_COMPLETE = "kr.po1.auth.COMPLETE";
+
+	private MobileServiceClient mClient;
+	private Context context;
+
+	// Azure 인증 정보
+	private String AzureMobileServiceUrl = "https://wtm.azure-mobile.net/";
+	private String AzureMobileServiceKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+
+	public WtmUserAuth(Context context)
+	{
+		this.context = context;
+	}
+
+	public void doAuth()
+	{
+		try
+		{
+			mClient = new MobileServiceClient(AzureMobileServiceUrl, AzureMobileServiceKey, context).withFilter(new ProgressFilter());
+			authenticate();
+		}
+		catch(MalformedURLException e)
+		{
+			createAndShowDialog(new Exception(context.getString(R.string.auth_error_1)), "Error");
+		}
+	}
+
+	// 인증
+	public void authenticate()
+	{
+		mClient.login(MobileServiceAuthenticationProvider.Facebook, new UserAuthenticationCallback()
+		{
+			@Override
+			public void onCompleted(MobileServiceUser user, Exception exception, ServiceFilterResponse response)
+			{
+				if(exception == null) // 인증 성공
+				{
+					authComplete(user);
+					authResult = true;
+				}
+				else
+					createAndShowDialog(context.getString(R.string.auth_error_1), "Error");
+			}
+		});
+	}
+
+	private void createAndShowDialog(Exception exception, String title)
+	{
+		createAndShowDialog(exception.toString(), title);
+	}
+
+	private void createAndShowDialog(String message, String title)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+		builder.setMessage(message);
+		builder.setTitle(title);
+		builder.create().show();
+	}
+
+	// 인증 완료 처리
+	private void authComplete(MobileServiceUser UserInfo)
+	{
+		authToken = UserInfo.getAuthenticationToken();
+		userId = UserInfo.getUserId();
+
+		WtmDataStore.authUserInfo = UserInfo;
+
+		// 인증 완료 인텐트 전송
+		Intent intent = new Intent(ACTION_AUTH_COMPLETE);
+		intent.putExtra("AUTH_TOKEN", UserInfo.getAuthenticationToken());
+		intent.putExtra("USER_ID", UserInfo.getUserId());
+		context.sendBroadcast(intent);
+	}
+
+	private class ProgressFilter implements ServiceFilter
+	{
+		@Override
+		public void handleRequest(ServiceFilterRequest request, NextServiceFilterCallback nextServiceFilterCallback, final ServiceFilterResponseCallback responseCallback)
+		{
+			nextServiceFilterCallback.onNext(request, new ServiceFilterResponseCallback()
+			{
+				@Override
+				public void onResponse(ServiceFilterResponse response, Exception exception)
+				{
+					if(responseCallback != null)
+						responseCallback.onResponse(response, exception);
+				}
+			});
+		}
+	}
+}

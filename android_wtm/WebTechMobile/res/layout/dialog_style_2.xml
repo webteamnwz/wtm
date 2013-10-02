@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/layoutDialogCommon"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#00000000"
+	android:gravity="center" >
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_marginBottom="10dp"
+		android:layout_marginTop="10dp"
+		android:background="@drawable/shadow1"
+		android:minWidth="300dp"
+		android:orientation="vertical"
+		android:paddingBottom="5px"
+		android:paddingLeft="4px"
+		android:paddingRight="4px"
+		android:paddingTop="4px" >
+
+		<LinearLayout
+			android:layout_width="300dp"
+			android:layout_height="wrap_content"
+			android:background="@drawable/bg_user_info"
+			android:orientation="vertical" >
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="#0099cc"
+				android:gravity="center_vertical"
+				android:orientation="vertical"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp" >
+
+				<TextView
+					android:id="@+id/textDialogCommonTitle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical"
+					android:text="Title"
+					android:textColor="#ffffff"
+					android:textSize="16dp" />
+			</LinearLayout>
+
+			<ScrollView
+				android:id="@+id/scrollDialogContents"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginBottom="45dp" >
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical"
+					android:minHeight="60dp"
+					android:orientation="vertical" >
+
+					<TextView
+						android:id="@+id/textDialogCommonContents"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_margin="10dp"
+						android:autoLink="web|email|map"
+						android:text="Contents"
+						android:textColor="#000000"
+						android:textColorLink="#0099cc" />
+				</LinearLayout>
+			</ScrollView>
+
+			<LinearLayout
+				android:id="@+id/layoutDialogCustom"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="45dp"
+				android:orientation="vertical"
+				android:visibility="gone" >
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:layout_marginBottom="-2dp"
+				android:layout_marginLeft="-2dp"
+				android:layout_marginTop="-45dp"
+				android:layout_weight="1"
+				android:gravity="center"
+				android:paddingLeft="2dp"
+				android:paddingRight="-2dp" >
+
+				<Button
+					android:id="@+id/buttonPositive"
+					style="@style/AppButtonDialog"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="-2dp"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text="@string/dialogButton_Yes" />
+
+				<Button
+					android:id="@+id/buttonNegative"
+					style="@style/AppButtonDialog"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="-2dp"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text="@string/dialogButton_No" />
+
+				<Button
+					android:id="@+id/buttonConfirm"
+					style="@style/AppButtonDialog"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="-2dp"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text="@string/dialogButton_Confirm" />
+
+				<Button
+					android:id="@+id/buttonCancel"
+					style="@style/AppButtonDialog"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="-2dp"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text="@string/dialogButton_Cancel" />
+
+				<Button
+					android:id="@+id/buttonClose"
+					style="@style/AppButtonDialog"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="-2dp"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text="@string/dialogButton_Close" />
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+
+</LinearLayout>

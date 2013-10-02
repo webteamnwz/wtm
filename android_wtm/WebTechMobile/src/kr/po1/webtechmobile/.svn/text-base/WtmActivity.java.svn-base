@@ -1,0 +1,79 @@
+package kr.po1.webtechmobile;
+
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.widget.Toast;
+
+public class WtmActivity extends Activity
+{
+	private ActionBar actionBar;
+
+	private long m_startTime;
+	private long m_endTime;
+	private boolean m_isPressedBackButton = false;
+
+	protected Boolean isLastActivity = false;
+
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		m_startTime = System.currentTimeMillis();
+
+		try
+		{
+			actionBar = (ActionBar) getActionBar();
+			actionBar.hide();
+		}
+		catch(Exception e)
+		{
+		}
+
+		registerReceiver(new BroadcastReceiver()
+		{
+			@Override
+			public void onReceive(Context context, Intent intent)
+			{
+				dataReceiver(context, intent);
+			}
+		}, new IntentFilter(WtmHttp.ACTION_HTTP_CALL_DONE));
+	}
+
+	protected void dataReceiver(Context context, Intent intent)
+	{
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if(isLastActivity)
+		{
+			m_endTime = System.currentTimeMillis();
+
+			if(m_endTime - m_startTime > 2000)
+				m_isPressedBackButton = false;
+
+			if(m_isPressedBackButton == false)
+			{
+				m_isPressedBackButton = true;
+				m_startTime = System.currentTimeMillis();
+				Toast.makeText(this, getString(R.string.ui_exit_message), Toast.LENGTH_SHORT).show();
+			}
+			else
+			{
+				finish();
+				System.exit(0);
+				android.os.Process.killProcess(android.os.Process.myPid());
+			}
+		}
+		else
+			finish();
+	}
+}

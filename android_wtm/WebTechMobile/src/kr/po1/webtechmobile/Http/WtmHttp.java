@@ -1,0 +1,399 @@
+package kr.po1.webtechmobile.Http;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.List;
+
+import kr.po1.webtechmobile.R;
+import kr.po1.webtechmobile.WtmDataStore;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.http.AndroidHttpClient;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+
+public class WtmHttp
+{
+	public static String METHOD_GET = "GET";
+	public static String METHOD_POST = "POST";
+	public static String METHOD_PUT = "PUT";
+	public static String METHOD_DELETE = "DELETE";
+
+	public static final String ACTION_HTTP_CALL_DONE = "kr.po1.auth.HTTP_CALL_DONE";
+
+	private String requestType;
+	private String requestUrl;
+	private String requestCate;
+
+	private boolean isGetParam = false;
+
+	private boolean isAuthKey = true;
+
+	private Hashtable<String, String> requestParam = null;
+
+	public Context collbackContext;
+	public String contents;
+
+	private AlertDialog statusDialog;
+
+	public WtmHttp(String url, String type)
+	{
+		requestUrl = url;
+
+		if(type.equals(METHOD_GET) || type.equals(METHOD_POST) || type.equals(METHOD_PUT) || type.equals(METHOD_DELETE))
+			requestType = type;
+		else
+			requestType = METHOD_GET;
+	}
+
+	public void noAuthKey()
+	{
+		isAuthKey = false;
+	}
+
+	private void init()
+	{
+		requestParam = null;
+		contents = null;
+	}
+
+	public void setUrl(String url, String type)
+	{
+		requestUrl = url;
+		requestType = type;
+
+		init();
+	}
+
+	public void addParam(Hashtable<String, String> param)
+	{
+		requestParam = param;
+	}
+
+	public void addParam(String key, int val)
+	{
+		addParam(key, Integer.toString(val));
+	}
+
+	public void addParam(String key, String val)
+	{
+		if(requestParam == null)
+			requestParam = new Hashtable<String, String>();
+
+		requestParam.put(key, val);
+	}
+
+	public void setGetStyleParam(boolean bool)
+	{
+		isGetParam = bool;
+	}
+
+	private String getParams()
+	{
+		if(requestParam.size() <= 0)
+			return null;
+
+		String params = "";
+		Enumeration<String> em = requestParam.keys();
+
+		Log.d("tag", "Params");
+		while(em.hasMoreElements())
+		{
+			String key = em.nextElement().toString();
+			params += "&" + key + "=" + requestParam.get(key);
+
+			Log.d("tag", key + ": " + requestParam.get(key));
+		}
+
+		return params;
+	}
+
+	private List<NameValuePair> postParams()
+	{
+		if(requestParam.size() <= 0)
+			return null;
+
+		Enumeration<String> em = requestParam.keys();
+		int paramCount = requestParam.size();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(paramCount);
+
+		Log.d("tag", "Params");
+		while(em.hasMoreElements())
+		{
+			String key = em.nextElement().toString();
+			nameValuePairs.add(new BasicNameValuePair(key, requestParam.get(key)));
+
+			Log.d("tag", key + ": " + requestParam.get(key));
+		}
+
+		return nameValuePairs;
+	}
+
+	private boolean isNetwork()
+	{
+		return false;
+	}
+
+	// GET
+	public InputStream callGet(String url)
+	{
+		Log.d("tag", "callGet");
+		InputStream content = null;
+		String params = "";
+
+		try
+		{
+			// 파라미터
+			if(requestParam != null && requestParam.size() > 0)
+			{
+				params = getParams();
+				url += "?" + params;
+			}
+
+			HttpClient httpclient = AndroidHttpClient.newInstance("");
+			HttpGet httpget = new HttpGet(url);
+			if(isAuthKey)
+				httpget.addHeader("X-ZUMO-AUTH", WtmDataStore.authKey);
+			HttpResponse response = httpclient.execute(httpget);
+			content = response.getEntity().getContent();
+		}
+		catch(Exception e)
+		{
+			Log.e("tag", "init WtmHttpCall Error - " + e.toString());
+		}
+
+		return content;
+	}
+
+	// POST
+	public InputStream callPost(String url)
+	{
+		Log.d("tag", "callPost");
+		InputStream content = null;
+		String params = "";
+
+		try
+		{
+			// 파라미터
+			if(requestParam != null && requestParam.size() > 0 && isGetParam)
+			{
+				params = getParams();
+				url += "?" + params;
+			}
+
+			HttpClient httpclient = AndroidHttpClient.newInstance("");
+			HttpPost httppost = new HttpPost(url);
+			if(isAuthKey)
+				httppost.addHeader("X-ZUMO-AUTH", WtmDataStore.authKey);
+
+			Log.d("tag", "paramCount: " + requestParam.size());
+
+			// 파라미터
+			if(requestParam != null && requestParam.size() > 0)
+			{
+				List<NameValuePair> nameValuePairs = postParams();
+				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
+			}
+
+			HttpResponse response = httpclient.execute(httppost);
+			content = response.getEntity().getContent();
+		}
+		catch(Exception e)
+		{
+			Log.e("tag", "init WtmHttpCall Error - " + e.toString());
+		}
+
+		return content;
+	}
+
+	// PUT
+	public InputStream callPut(String url)
+	{
+		Log.d("tag", "callPut");
+		InputStream content = null;
+		String params = "";
+
+		try
+		{
+			// 파라미터
+			if(requestParam != null && requestParam.size() > 0 && isGetParam)
+			{
+				params = getParams();
+				url += "?" + params;
+			}
+
+			HttpClient httpclient = AndroidHttpClient.newInstance("");
+			HttpPut httpput = new HttpPut(url);
+			Log.d("tag", "URL: " + url);
+			if(isAuthKey)
+				httpput.addHeader("X-ZUMO-AUTH", WtmDataStore.authKey);
+
+			Log.d("tag", "paramCount: " + requestParam.size());
+
+			// 파라미터
+			if(requestParam.size() > 0)
+			{
+				List<NameValuePair> nameValuePairs = postParams();
+				httpput.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
+			}
+
+			HttpResponse response = httpclient.execute(httpput);
+			content = response.getEntity().getContent();
+		}
+		catch(Exception e)
+		{
+			Log.e("tag", "init WtmHttpCall Error - " + e.toString());
+		}
+
+		return content;
+	}
+
+	// DELETE
+	public InputStream callDelete(String url)
+	{
+		Log.d("tag", "callDelete");
+		InputStream content = null;
+		String params = "";
+
+		try
+		{
+			// 파라미터
+			if(requestParam != null && requestParam.size() > 0)
+			{
+				params = getParams();
+				url += "?" + params;
+			}
+
+			HttpClient httpclient = AndroidHttpClient.newInstance("");
+			HttpDelete httpdelete = new HttpDelete(url);
+			if(isAuthKey)
+				httpdelete.addHeader("X-ZUMO-AUTH", WtmDataStore.authKey);
+			HttpResponse response = httpclient.execute(httpdelete);
+			content = response.getEntity().getContent();
+		}
+		catch(Exception e)
+		{
+			Log.e("tag", "init WtmHttpCall Error - " + e.toString());
+		}
+
+		return content;
+	}
+
+	public void execute(Context callbackContext, String requestCategory)
+	{
+		this.requestCate = requestCategory;
+		this.collbackContext = callbackContext;
+		execute(collbackContext);
+	}
+
+	@SuppressLint({ "NewApi" })
+	public void execute(Context callbackContext)
+	{
+		this.collbackContext = callbackContext;
+		new HttpTask().execute(requestUrl);
+
+		LayoutInflater inflater = (LayoutInflater) callbackContext.getSystemService(callbackContext.LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.layout_http_loading, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(callbackContext, R.style.customDialog);
+		builder.setView(layout);
+		statusDialog = builder.create();
+		statusDialog.setCancelable(false);
+		statusDialog.show();
+	}
+
+	class HttpTask extends AsyncTask<String, Void, String>
+	{
+		@Override
+		protected String doInBackground(String... params)
+		{
+			InputStream is = null;
+
+			Log.d("tag", "requestType: " + requestType);
+
+			if(requestType.equals(METHOD_POST))
+				is = callPost((String) params[0]);
+			else if(requestType.equals(METHOD_PUT))
+				is = callPut((String) params[0]);
+			else if(requestType.equals(METHOD_DELETE))
+				is = callDelete((String) params[0]);
+			else
+				is = callGet((String) params[0]);
+
+			String result = convertInputStreamToString(is);
+
+			return result;
+		}
+
+		@SuppressLint("InlinedApi")
+		@Override
+		protected void onPostExecute(String result)
+		{
+			Log.d("tag", "Done.");
+			Log.d("tag", result);
+
+			contents = result;
+
+			// 호출 완료 인텐트 생성
+			Intent intent = new Intent();
+			intent.setAction(WtmHttp.ACTION_HTTP_CALL_DONE);
+			intent.putExtra("REQUEST_URL", requestUrl);
+			intent.putExtra("REQUEST_METHOD", requestType);
+			intent.putExtra("REQUEST_CATEGORY", requestCate == null ? "NONE" : requestCate);
+			intent.putExtra("RESPONSE_CONTENTS", contents);
+
+			collbackContext.sendBroadcast(intent);
+
+			statusDialog.dismiss();
+		}
+	}
+
+	public String convertInputStreamToString(InputStream is)
+	{
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		StringBuilder sb = new StringBuilder();
+
+		String line = null;
+		try
+		{
+			while((line = reader.readLine()) != null)
+				sb.append(line + "\n");
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				is.close();
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return sb.toString();
+	};
+}

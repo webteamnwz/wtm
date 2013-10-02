@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">WebTechMobile</string>
+	<string name="action_settings">설정</string>
+	<string name="action_userInfo">내 정보 설정</string>
+	<string name="action_createRoom">방 만들기</string>
+	<string name="action_createCategory">카테고리 만들기</string>
+
+	<!-- 초기로딩 오류 -->
+	<string name="error_start_load_fail">오류가 발생하여 로드에 실패했습니다.\n앱을 종료하고 다시 시도해 주세요.</string>
+
+	<!-- UI -->
+	<string name="ui_main_buttonFacebookLogin">페이스북 계정으로 로그인</string>
+	<string name="ui_main_buttonLoginCancel">로그인 취소</string>
+	<string name="ui_exit_message">뒤로가기 버튼을 한 번 더 누르시면 종료됩니다.</string>
+	<string name="ui_room_checkin">체크인</string>
+	<string name="ui_room_join">가입</string>
+	<string name="ui_room_out">탈퇴</string>
+	<string name="ui_room_modify">수정</string>
+	<string name="ui_room_delete">삭제</string>
+	<string name="ui_label_room_checkin_user">체크인 유저</string>
+	<string name="ui_label_room_manager">방장</string>
+
+	<!-- Dialog -->
+	<string name="dialogTitle_Confirm">확인</string>
+	<string name="dialogTitle_Error">오류</string>
+	<string name="dialogButton_Yes">예</string>
+	<string name="dialogButton_No">아니오</string>
+	<string name="dialogButton_Confirm">확인</string>
+	<string name="dialogButton_Cancel">취소</string>
+	<string name="dialogButton_Close">닫기</string>
+
+	<!-- Category Room -->
+	<string name="categoryRoomList_noRoom">%s 카테고리에 방이 없습니다.</string>
+
+	<!-- Room Info -->
+	<string name="userRoomInfoJoinMsg_Success">가입했습니다.</string>
+	<string name="userRoomInfoCheckMsg_Success">체크인 했습니다.</string>
+	<string name="userRoomInfoCheckMsg_Fail">체크인에 실패했습니다.</string>
+	<string name="userRoomInfoCheckDialogMsg">체크인 하시겠습니까?</string>
+	<string name="userRoomInfoOutDialogMsg">이 방을 탈퇴하시겠습니까?</string>
+	<string name="userRoomInfoOutMsg_Success">탈퇴했습니다.</string>
+	<string name="userRoomInfoOutMsg_Fail">탈퇴에 실패했습니다.</string>
+	<string name="userRoomInfoDeleteMsg_Success">삭제했습니다.</string>
+	<string name="userRoomInfoDeleteMsg_Fail">삭제에 실패했습니다.</string>
+	<string name="userRoomInfoLabel_Master">방장</string>
+	<string name="userRoomInfoLabel_Startdate">시작일</string>
+	<string name="userRoomInfoLabel_Enddate">종료일</string>
+	<string name="userRoomInfoLabel_MemberCount">구성원</string>
+	<string name="userRoomInfo_MemberCount">%d명</string>
+	<string name="userRoomInfoLabel_Checkin">체크인 한 사람 - %d명</string>
+
+	<!-- 인증 메시지 -->
+	<string name="auth_begin">로그인 중...</string>
+	<string name="auth_complete">로그인에 성공했습니다.</string>
+	<string name="auth_error_1">본 서비스를 이용하시려면 로그인을 하셔야 합니다.</string>
+
+	<!-- 오류메시지 -->
+	<string name="error_type_1">오류가 발생되었습니다. 잠시 후 다시 시도해 주세요.</string>
+
+	<!-- 버튼 문자열 -->
+	<string name="button_Join">가입</string>
+	<string name="button_Modify">수정</string>
+	<string name="button_Checkin">체크인</string>
+	<string name="button_Out">탈퇴</string>
+	<string name="button_Delete">삭제</string>
+	<string name="button_Confirm">확인</string>
+	<string name="button_Create">생성</string>
+	<string name="button_Add">추가</string>
+	<string name="button_Cancel">취소</string>
+	<string name="button_Close">닫기</string>
+	<string name="button_Open">열기</string>
+	<string name="button_CreateRoom">방 만들기</string>
+	<string name="button_CreateCategory">카테고리 만들기</string>
+	<string name="button_MoveCategory">카테고리 이동</string>
+
+</resources>

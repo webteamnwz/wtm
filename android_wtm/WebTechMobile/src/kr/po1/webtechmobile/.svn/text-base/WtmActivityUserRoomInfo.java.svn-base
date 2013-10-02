@@ -1,0 +1,264 @@
+package kr.po1.webtechmobile;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class WtmActivityUserRoomInfo extends WtmActivity implements
+		OnClickListener
+{
+	private int roomNo;
+	private boolean isChecked;
+
+	public Context thisContext;
+
+	private Button btnCheckin;
+	private Button btnOut;
+	private Button btnDelete;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_user_room_info);
+
+		thisContext = this;
+
+		Intent intent = getIntent();
+		// 방 번호 받기
+		roomNo = intent.getExtras().getInt("ROOM_NO");
+		// 체크인 여부 받기
+		isChecked = intent.getExtras().getBoolean("IS_CHECKED");
+
+		// 방 정보 구하기
+		WtmHttp call = new WtmHttp("https://wtm.azure-mobile.net/api/room", WtmHttp.METHOD_GET);
+		call.addParam("room_no", roomNo);
+		call.execute(this, "ROOM_INFO");
+
+		// 체크인
+		btnCheckin = (Button) findViewById(R.id.buttonUserRoomInfoCheck);
+		btnCheckin.setOnClickListener((OnClickListener) this);
+
+		// 방 탈퇴
+		btnOut = (Button) findViewById(R.id.buttonUserRoomInfoOut);
+		btnOut.setOnClickListener((OnClickListener) this);
+
+		// 삭제
+		btnDelete = (Button) findViewById(R.id.buttonUserRoomInfoDelete);
+
+		if(!isChecked)
+			btnCheckin.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		switch(v.getId())
+		{
+		// 체크인
+			case R.id.buttonUserRoomInfoCheck:
+				new AlertDialog.Builder(this).setTitle(getString(R.string.dialogTitle_Confirm)).setMessage(getString(R.string.userRoomInfoCheckDialogMsg)).setNegativeButton(getString(R.string.dialogButton_No), new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.dismiss();
+					}
+				}).setPositiveButton(getString(R.string.dialogButton_Yes), new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						WtmHttp call = new WtmHttp("https://wtm.azure-mobile.net/api/user_room", WtmHttp.METHOD_PUT);
+						call.addParam("room_no", roomNo);
+						call.setGetStyleParam(true);
+						call.execute(thisContext, "USER_ROOM_CHECKIN");
+					}
+				}).show();
+				break;
+
+			// 탈퇴
+			case R.id.buttonUserRoomInfoOut:
+				new AlertDialog.Builder(this).setTitle(getString(R.string.dialogTitle_Confirm)).setMessage(getString(R.string.userRoomInfoOutDialogMsg)).setNegativeButton(getString(R.string.dialogButton_No), new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.dismiss();
+					}
+				}).setPositiveButton(getString(R.string.dialogButton_Yes), new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						WtmHttp call = new WtmHttp("https://wtm.azure-mobile.net/api/user_room", WtmHttp.METHOD_DELETE);
+						call.addParam("room_no", roomNo);
+						call.setGetStyleParam(true);
+						call.execute(thisContext, "USER_ROOM_OUT");
+					}
+				}).show();
+				break;
+		}
+	}
+
+	@Override
+	protected void dataReceiver(Context context, Intent intent)
+	{
+		String requestUrl = (String) intent.getExtras().get("REQUEST_URL");
+		String responseContents = (String) intent.getExtras().get("RESPONSE_CONTENTS");
+		String requestCate = (String) intent.getExtras().get("REQUEST_CATEGORY");
+		String requestMethod = (String) intent.getExtras().get("REQUEST_METHOD");
+
+		// 방 정보
+		if(requestCate.equals("ROOM_INFO"))
+		{
+			TextView txtRoomTitle = (TextView) findViewById(R.id.textUserRoomInfoTitle);
+			TextView txtRoomDesc = (TextView) findViewById(R.id.textUserRoomInfoDesc);
+
+			String managerId;
+
+			try
+			{
+				JSONObject json = new JSONObject(responseContents);
+				if(json.getInt("code") == 100)
+				{
+					WtmRoomInfo roomInfo = new WtmRoomInfo();
+					roomInfo.setRoomInfo(json);
+
+					txtRoomTitle.setText(roomInfo.getTitle());
+					txtRoomDesc.setText(roomInfo.getDesc());
+
+					managerId = roomInfo.getManager().replace("Facebook:", "");
+
+					Log.d("tag", "managerId: " + managerId);
+
+					// 방장 FB 정보
+					WtmHttp call = new WtmHttp("https://graph.facebook.com/" + managerId, WtmHttp.METHOD_GET);
+					call.noAuthKey();
+					call.execute(thisContext, "FB_USER");
+
+					// 사용자에 따라 버튼 분기처리
+					if(WtmUtil.convFbId(roomInfo.getManager()).equals(WtmUtil.convFbId(WtmUserAuth.userId)))
+						btnDelete.setVisibility(View.VISIBLE);
+					else
+						btnOut.setVisibility(View.VISIBLE);
+
+					// 체크한 유저 목록
+					ArrayList<HashMap<String, String>> userList = roomInfo.getCheckedUsers();
+					LinearLayout imageListLayout = (LinearLayout) findViewById(R.id.layoutRoomInfoCheckedUserList);
+					imageListLayout.removeAllViews();
+
+					// 체크인 유저 수 표시
+					TextView txtCheckedLable = (TextView) findViewById(R.id.textRoomInfoCheckedUserLabel);
+					txtCheckedLable.setText(getString(R.string.ui_label_room_checkin_user) + " (" + roomInfo.getJoinCnt() + "/" + userList.size() + ")");
+
+					Log.d("tag", "user list: " + userList.size());
+					for(int i = 0; i < userList.size(); i++)
+					{
+						HashMap<String, String> checkUserInfo = userList.get(i);
+						ImageView checkedUserFbIcon = new ImageView(context);
+						Log.d("tag", checkUserInfo.get("user_id"));
+						checkedUserFbIcon.setImageResource(R.drawable.btn_gray);
+						WtmUtil.getImageToUrl(checkedUserFbIcon, WtmUtil.getFbProfileImageUrl(checkUserInfo.get("user_id")));
+						checkedUserFbIcon.setLayoutParams(new LayoutParams(WtmUtil.dpTopx(40, context), WtmUtil.dpTopx(40, context)));
+						imageListLayout.addView(checkedUserFbIcon);
+					}
+				}
+				else
+					Toast.makeText(this, "방 정보를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
+			}
+			catch(JSONException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		// 방장 정보
+		else if(requestCate.equals("FB_USER"))
+		{
+			String fbUserName;
+			String fbId;
+
+			try
+			{
+				JSONObject fbInfoJson = new JSONObject(responseContents);
+				WtmFbUserInfo fbInfo = new WtmFbUserInfo();
+				fbInfo.setFbUserInfo(fbInfoJson);
+
+				fbId = fbInfo.getId();
+				fbUserName = fbInfo.getName();
+
+				String fbProfileUrl = fbInfo.getProfileImageUrl();
+				Log.d("tag", "fbProfileUrl: " + fbProfileUrl);
+
+				// 정보 출력
+				ImageView fbIcon = (ImageView) findViewById(R.id.imageRoomManagerFbIcon);
+				WtmUtil.getImageToUrl(fbIcon, fbProfileUrl);
+
+				LinearLayout layout = (LinearLayout) findViewById(R.id.layout_user_room_info_detail);
+				layout.setVisibility(View.VISIBLE);
+
+				TextView textFbName = (TextView) findViewById(R.id.textRoomManagerName);
+				textFbName.setText(fbUserName);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		// 체크인 완료
+		else if(requestCate.equals("USER_ROOM_CHECKIN"))
+			try
+			{
+				JSONObject roomCheckinResult = new JSONObject(responseContents);
+
+				if(roomCheckinResult.getInt("code") == 100)
+				{
+					btnCheckin.setVisibility(View.GONE);
+					Toast.makeText(context, getString(R.string.userRoomInfoCheckMsg_Success), Toast.LENGTH_SHORT).show();
+
+					WtmHttp call = new WtmHttp("https://wtm.azure-mobile.net/api/room", WtmHttp.METHOD_GET);
+					call.addParam("room_no", roomNo);
+					call.execute(this, "ROOM_INFO");
+				}
+				else
+					Toast.makeText(context, getString(R.string.userRoomInfoCheckMsg_Fail), Toast.LENGTH_SHORT).show();
+			}
+			catch(Exception e)
+			{
+			}
+		// 탈퇴 완료
+		else if(requestCate.equals("USER_ROOM_OUT"))
+			try
+			{
+				JSONObject roomCheckinResult = new JSONObject(responseContents);
+
+				if(roomCheckinResult.getInt("code") == 100)
+				{
+					Toast.makeText(context, getString(R.string.userRoomInfoOutMsg_Success), Toast.LENGTH_SHORT).show();
+					finish();
+				}
+				else
+					Toast.makeText(context, getString(R.string.userRoomInfoOutMsg_Fail), Toast.LENGTH_SHORT).show();
+			}
+			catch(Exception e)
+			{
+			}
+	}
+}

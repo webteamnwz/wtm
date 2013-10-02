@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/layoutDialogCommon"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#66000000"
+	android:gravity="center" >
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_marginBottom="10dp"
+		android:layout_marginTop="10dp"
+		android:background="@drawable/dialog"
+		android:minWidth="300dp"
+		android:orientation="vertical" >
+
+		<TextView
+			android:id="@+id/textDialogCommonTitle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="10dp"
+			android:text="Title"
+			android:textColor="#0099cc"
+			android:textSize="16dp" />
+
+		<ScrollView
+			android:id="@+id/scrollDialogContents"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginBottom="60dp" >
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical" >
+
+				<TextView
+					android:id="@+id/textDialogCommonContents"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:autoLink="web|email|map"
+					android:text="Contents"
+					android:textColor="#000000"
+					android:textColorLink="#0099cc" />
+			</LinearLayout>
+		</ScrollView>
+
+		<LinearLayout
+			android:id="@+id/layoutDialogCustom"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="60dp"
+			android:orientation="vertical"
+			android:visibility="gone" >
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="35dp"
+			android:layout_marginBottom="-15dp"
+			android:layout_marginTop="-40dp"
+			android:gravity="center" >
+
+			<Button
+				android:id="@+id/buttonPositive"
+				style="@style/AppButtonBlue"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:gravity="center"
+				android:text="예" />
+
+			<Button
+				android:id="@+id/buttonNegative"
+				style="@style/AppButtonBlue"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:gravity="center"
+				android:text="아니오" />
+
+			<Button
+				android:id="@+id/buttonConfirm"
+				style="@style/AppButtonBlue"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:gravity="center"
+				android:text="확인" />
+
+			<Button
+				android:id="@+id/buttonCancel"
+				style="@style/AppButtonBlue"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:gravity="center"
+				android:text="취소" />
+
+			<Button
+				android:id="@+id/buttonClose"
+				style="@style/AppButtonBlue"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:gravity="center"
+				android:text="닫기" />
+		</LinearLayout>
+	</LinearLayout>
+
+</LinearLayout>

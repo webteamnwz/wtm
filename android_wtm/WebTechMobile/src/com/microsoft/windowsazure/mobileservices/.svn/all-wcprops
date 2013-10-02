@@ -1,0 +1,179 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices
+END
+MobileServiceTable.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceTable.java
+END
+QueryOrder.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/QueryOrder.java
+END
+ServiceFilterRequestImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/ServiceFilterRequestImpl.java
+END
+ServiceFilterResponseCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/ServiceFilterResponseCallback.java
+END
+MobileServiceAuthenticationProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceAuthenticationProvider.java
+END
+LoginManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/LoginManager.java
+END
+ServiceFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/ServiceFilter.java
+END
+MobileServiceException.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceException.java
+END
+DateSerializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/DateSerializer.java
+END
+ServiceFilterResponseImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/ServiceFilterResponseImpl.java
+END
+MobileServiceConnection.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceConnection.java
+END
+RequestAsyncTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/RequestAsyncTask.java
+END
+MobileServiceApplication.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceApplication.java
+END
+MobileServiceQuery.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceQuery.java
+END
+ServiceFilterRequest.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/ServiceFilterRequest.java
+END
+TableJsonOperationCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/TableJsonOperationCallback.java
+END
+NextServiceFilterCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/NextServiceFilterCallback.java
+END
+MobileServiceQueryOperations.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceQueryOperations.java
+END
+TableJsonQueryCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/TableJsonQueryCallback.java
+END
+ServiceFilterResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/ServiceFilterResponse.java
+END
+TableOperationCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/TableOperationCallback.java
+END
+MobileServiceUser.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceUser.java
+END
+MobileServiceClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceClient.java
+END
+TableDeleteCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/TableDeleteCallback.java
+END
+LongSerializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/LongSerializer.java
+END
+MobileServiceJsonTable.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceJsonTable.java
+END
+TableQueryCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/TableQueryCallback.java
+END
+MobileServiceTableBase.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/MobileServiceTableBase.java
+END
+UserAuthenticationCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/com/microsoft/windowsazure/mobileservices/UserAuthenticationCallback.java
+END

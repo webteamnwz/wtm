@@ -1,0 +1,142 @@
+package kr.po1.webtechmobile;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class WtmActivityTest extends WtmActivity implements OnClickListener
+{
+	Context thisContext = this;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_test);
+
+		isLastActivity = false;
+
+		// 테스트 버튼
+		// User
+		Button btnTest1 = (Button) findViewById(R.id.buttonTest1);
+		btnTest1.setOnClickListener((OnClickListener) this);
+
+		// Category
+		Button btnTest2 = (Button) findViewById(R.id.buttonTest2);
+		btnTest2.setOnClickListener((OnClickListener) this);
+
+		// User Put
+		Button btnTest3 = (Button) findViewById(R.id.buttonTest3);
+		btnTest3.setOnClickListener((OnClickListener) this);
+
+		// My Room
+		Button btnTest4 = (Button) findViewById(R.id.buttonTest4);
+		btnTest4.setOnClickListener((OnClickListener) this);
+
+		// Join Room
+		Button btnTest5 = (Button) findViewById(R.id.buttonTest5);
+		btnTest5.setOnClickListener((OnClickListener) this);
+
+		// Check Room
+		Button btnTest7 = (Button) findViewById(R.id.buttonTest7);
+		btnTest7.setOnClickListener((OnClickListener) this);
+
+		// User Out
+		Button btnTest6 = (Button) findViewById(R.id.buttonTest6);
+		btnTest6.setOnClickListener((OnClickListener) this);
+
+	}
+
+	@Override
+	protected void dataReceiver(Context context, Intent intent)
+	{
+		String fbImageUrl;
+
+		String requestUrl = (String) intent.getExtras().get("REQUEST_URL");
+		String responseContents = (String) intent.getExtras().get("RESPONSE_CONTENTS");
+		String requestCate = (String) intent.getExtras().get("REQUEST_CATEGORY");
+		String requestMethod = (String) intent.getExtras().get("REQUEST_METHOD");
+
+		Log.d("tag", "requestUrl: " + requestUrl);
+		Log.d("tag", "requestCate: " + requestCate);
+
+		TextView txt = (TextView) findViewById(R.id.textStatus);
+		txt.setText(responseContents);
+
+		if(requestCate.equals("User"))
+		{
+			fbImageUrl = "https://graph.facebook.com/" + WtmUserAuth.userId.replace("Facebook:", "") + "/picture";
+			Log.d("tag", "Load image: " + fbImageUrl);
+
+			ImageView img = (ImageView) findViewById(R.id.imageView1);
+			WtmUtil.getImageToUrl(img, fbImageUrl);
+		}
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		WtmHttp call;
+
+		// 테스트 버튼
+		switch(v.getId())
+		{
+			case R.id.buttonTest1: // User
+				call = new WtmHttp("https://wtm.azure-mobile.net/api/user", WtmHttp.METHOD_GET);
+				call.execute(thisContext, "User");
+				break;
+
+			case R.id.buttonTest2: // Category
+				call = new WtmHttp("https://wtm.azure-mobile.net/api/category", WtmHttp.METHOD_GET);
+				call.execute(thisContext, "Category");
+				break;
+
+			case R.id.buttonTest3: // User Put
+				call = new WtmHttp("https://wtm.azure-mobile.net/api/user", WtmHttp.METHOD_PUT);
+				call.addParam("user_email", "kdh826@neowiz.com");
+				call.addParam("user_name", "김동현");
+				call.addParam("user_img", "test.jpg");
+				call.addParam("user_profile", "테스트 테스트 테스트");
+				call.addParam("user_group", "PHP|Android");
+				call.execute(thisContext, "User");
+				break;
+
+			case R.id.buttonTest4: // My Room
+				call = new WtmHttp("https://wtm.azure-mobile.net/api/user_room", WtmHttp.METHOD_GET);
+				call.execute(thisContext, "UserRoom");
+				break;
+
+			case R.id.buttonTest5: // Join Room
+				call = new WtmHttp("https://wtm.azure-mobile.net/api/user_room", WtmHttp.METHOD_POST);
+				call.addParam("room_no", "5");
+				call.execute(thisContext, "UserRoom");
+				break;
+
+			case R.id.buttonTest7: // Check Room
+				call = new WtmHttp("https://wtm.azure-mobile.net/api/user_room", WtmHttp.METHOD_PUT);
+				call.addParam("room_no", "5");
+				call.setGetStyleParam(true);
+				call.execute(thisContext, "UserRoom");
+				break;
+
+			case R.id.buttonTest6: // User Out
+				call = new WtmHttp("https://wtm.azure-mobile.net/api/user", WtmHttp.METHOD_DELETE);
+				call.execute(thisContext, "UserRoom");
+				break;
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.menu_home, menu);
+		return true;
+	}
+}

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/imageUserInfo_backgroundLayout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#00000000"
+	android:gravity="center"
+	android:orientation="vertical" >
+
+	<LinearLayout
+		android:id="@+id/imageUserInfo_boxLayout"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_marginBottom="10dp"
+		android:layout_marginTop="10dp"
+		android:background="@drawable/shadow1"
+		android:minWidth="150dp"
+		android:orientation="vertical"
+		android:paddingBottom="5px"
+		android:paddingLeft="4px"
+		android:paddingRight="4px"
+		android:paddingTop="4px" >
+
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/bg_user_info"
+			android:orientation="vertical" >
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical" >
+
+				<ImageView
+					android:id="@+id/imageUserInfo_backgroundIcon"
+					android:layout_width="230dp"
+					android:layout_height="180dp"
+					android:background="#eeeeee"
+					android:scaleType="centerCrop"
+					android:src="@drawable/fb_icon_default" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="25dp"
+					android:layout_marginTop="-25dp"
+					android:background="@drawable/bg_gray_gradation" >
+
+					<TextView
+						android:id="@+id/textUserInfo_userName"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:layout_marginLeft="3dp"
+						android:shadowColor="#000000"
+						android:shadowDx="1"
+						android:shadowDy="1"
+						android:shadowRadius="10"
+						android:text="UserName"
+						android:textColor="#ffffff"
+						android:textSize="17dp" />
+				</LinearLayout>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="25dp"
+				android:layout_marginTop="-180dp"
+				android:gravity="right" >
+
+				<ImageView
+					android:id="@+id/activityUserInfo_imageMyEdit"
+					android:layout_width="25dp"
+					android:layout_height="25dp"
+					android:layout_marginRight="2dp"
+					android:src="@drawable/my_edit" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="-155dp"
+				android:layout_marginTop="155dp"
+				android:orientation="vertical"
+				android:paddingLeft="3dp"
+				android:paddingRight="3dp"
+				android:paddingTop="3dp" >
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="5dp"
+					android:layout_marginTop="2dp"
+					android:orientation="vertical" >
+
+					<TextView
+						style="@style/WTM_Label"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="프로필" />
+
+					<TextView
+						android:id="@+id/activityUserInfo_textUserProfile"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="3dp"
+						android:text="userProfile"
+						android:textColor="#000000" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="5dp"
+					android:layout_marginTop="2dp"
+					android:orientation="vertical" >
+
+					<TextView
+						style="@style/WTM_Label"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="이메일" />
+
+					<TextView
+						android:id="@+id/activityUserInfo_textUserEmail"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="3dp"
+						android:text="userEmail"
+						android:textColor="#000000" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="5dp"
+					android:layout_marginTop="2dp"
+					android:orientation="vertical" >
+
+					<TextView
+						style="@style/WTM_Label"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="보유기술" />
+
+					<TextView
+						android:id="@+id/activityUserInfo_textUserGroup"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="3dp"
+						android:text="userGroup"
+						android:textColor="#000000" />
+				</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+
+</LinearLayout>

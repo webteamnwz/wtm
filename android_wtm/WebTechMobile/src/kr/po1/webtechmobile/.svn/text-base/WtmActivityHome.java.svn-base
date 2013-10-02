@@ -1,0 +1,117 @@
+package kr.po1.webtechmobile;
+
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+
+public class WtmActivityHome extends WtmActivity implements OnClickListener
+{
+	Context thisContext = this;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_home);
+
+		// 초기 데이터 조회
+		WtmHttpCallHandler userInfoHandler = new WtmHttpCallHandler("https://wtm.azure-mobile.net/api/user", WtmHttpCallHandler.METHOD_GET)
+		{
+			@Override
+			public void onCompleted(String responseContents)
+			{
+				super.onCompleted(responseContents);
+
+				Log.d("tag", "https://wtm.azure-mobile.net/api/user");
+				Log.d("tag", responseContents);
+
+				try
+				{
+					JSONObject userInfoJson = new JSONObject(responseContents);
+					WtmUserInfo userInfo = new WtmUserInfo();
+					userInfo.setUserInfo(userInfoJson);
+
+					WtmDataStore.myInfo = userInfo;
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		};
+		WtmHttpCallHandler categoryInfoHandler = new WtmHttpCallHandler("https://wtm.azure-mobile.net/api/category", WtmHttpCallHandler.METHOD_GET)
+		{
+			@Override
+			public void onCompleted(String responseContents)
+			{
+				super.onCompleted(responseContents);
+
+				Log.d("tag", "https://wtm.azure-mobile.net/api/category");
+				Log.d("tag", responseContents);
+			}
+		};
+		WtmHttpCallHandler roomListHandler = new WtmHttpCallHandler("https://wtm.azure-mobile.net/api/user_room", WtmHttpCallHandler.METHOD_GET)
+		{
+			@Override
+			public void onCompleted(String responseContents)
+			{
+				super.onCompleted(responseContents);
+
+				Log.d("tag", "https://wtm.azure-mobile.net/api/category");
+				Log.d("tag", responseContents);
+			}
+		};
+		WtmHttpCallHandler checkInHandler = new WtmHttpCallHandler("https://wtm.azure-mobile.net/api/user_room", WtmHttpCallHandler.METHOD_PUT)
+		{
+			@Override
+			public void onCompleted(String responseContents)
+			{
+				super.onCompleted(responseContents);
+
+				Log.d("tag", "https://wtm.azure-mobile.net/api/category");
+				Log.d("tag", responseContents);
+			}
+		};
+		checkInHandler.addParam("room_no", "5");
+		checkInHandler.isGetParam(true);
+
+		WtmHttpCall httpCall = new WtmHttpCall()
+		{
+			@Override
+			public void onComplete()
+			{
+				super.onComplete();
+				
+				Log.d("tag", "HttpCall All Complete");
+
+				// 최초가입인 경우 유저정보 액티비티 띄우기
+				if(WtmDataStore.myInfo.getIsFirst())
+				{
+				}
+			}
+		};
+
+		httpCall.addHandler(userInfoHandler);
+		httpCall.addHandler(categoryInfoHandler);
+		httpCall.addHandler(roomListHandler);
+		httpCall.addHandler(checkInHandler);
+		httpCall.execute();
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.menu_home, menu);
+		return true;
+	}
+}

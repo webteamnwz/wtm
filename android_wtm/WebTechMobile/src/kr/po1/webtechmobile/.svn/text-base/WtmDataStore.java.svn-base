@@ -1,0 +1,14 @@
+package kr.po1.webtechmobile;
+
+import com.microsoft.windowsazure.mobileservices.MobileServiceUser;
+
+public class WtmDataStore
+{
+	static String authKey;
+
+	static MobileServiceUser authUserInfo;
+	static WtmUserInfo myInfo;
+	static WtmUserInfo userInfo;
+	static WtmRoomInfo roomInfo;
+	static WtmFbUserInfo fbUserInfo;
+}

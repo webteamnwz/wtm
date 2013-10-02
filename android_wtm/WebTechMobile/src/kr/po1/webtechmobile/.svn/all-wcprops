@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile
+END
+WtmHttpCallHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/android_wtm/!svn/ver/6/WebTechMobile/src/kr/po1/webtechmobile/WtmHttpCallHandler.java
+END
+WtmHttpCall.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/android_wtm/!svn/ver/6/WebTechMobile/src/kr/po1/webtechmobile/WtmHttpCall.java
+END
+WtmUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmUtil.java
+END
+WtmHttpClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmHttpClient.java
+END
+WtmUser.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/android_wtm/!svn/ver/4/WebTechMobile/src/kr/po1/webtechmobile/WtmUser.java
+END
+WtmHttp.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmHttp.java
+END
+WtmActivityRoomList.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/android_wtm/!svn/ver/6/WebTechMobile/src/kr/po1/webtechmobile/WtmActivityRoomList.java
+END
+WtmActivityCategoryList.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmActivityCategoryList.java
+END
+WtmDataStore.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmDataStore.java
+END
+WtmRoomInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmRoomInfo.java
+END
+WtmUserInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmUserInfo.java
+END
+WtmActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmActivity.java
+END
+WtmActivityTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmActivityTest.java
+END
+WtmUserAuth.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmUserAuth.java
+END
+WtmActivityMain.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/android_wtm/!svn/ver/6/WebTechMobile/src/kr/po1/webtechmobile/WtmActivityMain.java
+END
+WtmFbUserInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmFbUserInfo.java
+END
+WtmActivityUserRoomInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/android_wtm/!svn/ver/2/WebTechMobile/src/kr/po1/webtechmobile/WtmActivityUserRoomInfo.java
+END
+WtmActivityHome.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/android_wtm/!svn/ver/6/WebTechMobile/src/kr/po1/webtechmobile/WtmActivityHome.java
+END

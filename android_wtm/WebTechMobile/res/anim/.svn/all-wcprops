@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/android_neowiz_food/!svn/ver/2/neowiz_food/res/anim
+END
+leftin.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/android_neowiz_food/!svn/ver/2/neowiz_food/res/anim/leftin.xml
+END
+zoom_enter.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/android_neowiz_food/!svn/ver/2/neowiz_food/res/anim/zoom_enter.xml
+END
+leftout.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/android_neowiz_food/!svn/ver/2/neowiz_food/res/anim/leftout.xml
+END
+fadein.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/android_neowiz_food/!svn/ver/2/neowiz_food/res/anim/fadein.xml
+END
+hold.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/android_neowiz_food/!svn/ver/2/neowiz_food/res/anim/hold.xml
+END
+fadeout.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/android_neowiz_food/!svn/ver/2/neowiz_food/res/anim/fadeout.xml
+END
+zoom_exit.xml
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/android_neowiz_food/!svn/ver/2/neowiz_food/res/anim/zoom_exit.xml
+END

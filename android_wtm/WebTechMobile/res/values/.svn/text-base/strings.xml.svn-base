@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">WebTechMobile</string>
+	<string name="action_settings">설정</string>
+
+	<!-- UI -->
+	<string name="ui_main_buttonFacebookLogin">페이스북 계정으로 로그인</string>
+	<string name="ui_main_buttonLoginCancel">로그인 취소</string>
+	<string name="ui_exit_message">뒤로가기 버튼을 한 번 더 누르시면 종료됩니다.</string>
+	<string name="ui_room_checkin">체크인</string>
+	<string name="ui_room_out">방 탈퇴</string>
+	<string name="ui_room_delete">방 삭제</string>
+	<string name="ui_label_room_checkin_user">체크인 유저</string>
+	<string name="ui_label_room_manager">방장</string>
+
+	<!-- Dialog -->
+	<string name="dialogTitle_Confirm">확인</string>
+	<string name="dialogButton_Yes">예</string>
+	<string name="dialogButton_No">아니오</string>
+	<string name="dialogButton_Confirm">확인</string>
+	<string name="dialogButton_Cancel">취소</string>
+
+	<!-- User Room Info -->
+	<string name="userRoomInfoCheckMsg_Success">체크인 했습니다.</string>
+	<string name="userRoomInfoCheckMsg_Fail">체크인에 실패했습니다.</string>
+	<string name="userRoomInfoCheckDialogMsg">체크인 하시겠습니까?</string>
+	<string name="userRoomInfoOutDialogMsg">이 방을 탈퇴하시겠습니까?</string>
+	<string name="userRoomInfoOutMsg_Success">탈퇴했습니다.</string>
+	<string name="userRoomInfoOutMsg_Fail">탈퇴에 실패했습니다.</string>
+
+	<!-- 인증 메시지 -->
+	<string name="auth_begin">로그인 중...</string>
+	<string name="auth_complete">로그인에 성공했습니다.</string>
+	<string name="auth_error_1">본 서비스를 이용하시려면 로그인을 하셔야 합니다.</string>
+
+</resources>

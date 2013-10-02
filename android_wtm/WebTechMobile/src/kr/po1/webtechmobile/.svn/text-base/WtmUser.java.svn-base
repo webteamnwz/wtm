@@ -1,0 +1,22 @@
+package kr.po1.webtechmobile;
+
+import org.json.JSONObject;
+
+import android.content.Context;
+
+public class WtmUser
+{
+	private JSONObject myInfo = null;
+	private Context targetContext = null;
+
+	public WtmUser(Context context)
+	{
+		targetContext = context;
+	}
+
+	public JSONObject getMyInfo()
+	{
+
+		return myInfo;
+	}
+}
